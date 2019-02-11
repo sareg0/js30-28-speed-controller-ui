@@ -21,6 +21,7 @@
   isDown = false
 
   function handleMove (event) {
+    event.preventDefault()
     const percentHeight = Math.round((event.layerY / speed.getBoundingClientRect().height) * 100)
     const min = 0.4
     const max = 4
