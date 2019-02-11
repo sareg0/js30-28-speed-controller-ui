@@ -20,10 +20,20 @@
   const video = document.querySelector('.flex')
   isDown = false
 
-  // speed.addEventListener('click', (e) => {
-  //   const percent = (e.layerY / speed.getBoundingClientRect().height) * 100
-  //   speedBar.style.height = `${percent}%`
-  // })
+  function handleMove (event) {
+    const percentHeight = Math.round((event.layerY / speed.getBoundingClientRect().height) * 100)
+    const min = 0.4
+    const max = 4
+    const playbackRate = ((percentHeight * (max - min) + min) / 100).toFixed(1) 
+    if (isDown || event.type == 'click') {
+      speedBar.style.height = `${percentHeight}%`
+      speedBar.textContent = `${playbackRate}x`
+      video.playbackRate = playbackRate
+      console.log(video.playbackRate)
+    }
+  }
+
+  speed.addEventListener('click', handleMove)
 
   speedBar.addEventListener('mousedown', (e) => {
     isDown = true
@@ -33,16 +43,7 @@
     isDown = false
   })
 
-  speed.addEventListener('mousemove', (e) => {
-    const percentHeight = (e.layerY / speed.getBoundingClientRect().height) * 100
-    const playbackRate = ((4*e.layerY / 100) / 4).toFixed(1)
-    if (isDown) {
-      speedBar.style.height = `${percentHeight}%`
-      speedBar.textContent = `${playbackRate}x`
-      video.playbackRate = playbackRate
-      console.log(video.playbackRate)
-    }
-  })
+  speed.addEventListener('mousemove', handleMove)
 
 
 </script>
